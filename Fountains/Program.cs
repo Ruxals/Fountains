@@ -15,12 +15,12 @@ public class Grid<T>
 public class Player
 {
     Grid<int> compareGrid = new Grid<int>(4, 4);
-    private int _prow = 0;
-    private int _pcolumn = 0;
 
+    private int _prow;
+    private int _pcolumn;
     public int Prow
     {
-        get => _prow;
+        get {  return _prow; } 
         set
         {
             if (_prow < 0 || _prow > compareGrid.Row) { Console.WriteLine("Out of bounds."); }
@@ -29,11 +29,11 @@ public class Player
     }
     public int PColumn
     {
-        get => _pcolumn;
+        get { return _pcolumn; }
         set
         {
             if (_pcolumn < 0 || _pcolumn > compareGrid.Column) { Console.WriteLine("Out of bounds."); }
-            _prow = value;
+            _pcolumn = value;
         }
     }
 }
@@ -46,23 +46,58 @@ public class Fountain
     public int Fcol { get => _fcol; set { } }
 
     public bool isFound = false;
-    public bool isEnabled = false;
+    public int isEnabled = 0;
 }
 
 public class Game
 {
+
     public Grid<int> grid = new Grid<int>(4, 4);
     public Player player = new Player();
     public Fountain fountain = new Fountain();
 
+    public void EnableFountain()
+    {
+        string choice;
+
+        if (fountain.isFound)
+        {
+            Console.WriteLine("Type 'yes' to End and Enable the Fountain or 'no' if you want to stay:");
+            choice = Console.ReadLine();
+            if (choice == "yes") { Console.WriteLine("The fountain is flowing and running! Thanks for Playing!\n"); fountain.isEnabled = 1; }
+            else if (choice == "no") { Console.WriteLine("You may continue to explore the caverns although it's kind of dangerous.\n"); fountain.isEnabled = 0; }
+        }
+        else
+            Console.WriteLine("Fountain not Found Let's Continue.");
+
+    }
+
     public void Setting(int distance)
     {
-        if (distance == 0) { fountain.isFound = true; Console.WriteLine("You have found the fountain!"); }
-        if (distance == 1) { Console.WriteLine("Within the caverns you hear droplets from a near. You must be close."); }
-        if (distance == 2) { Console.WriteLine("It seems you are in the deep cavern with little sheds of lights. Continue onward."); }
-        if (distance == 3) { Console.WriteLine("It seems you are in the deeper cavern with no sheds of light. It's a midnight zone here."); }
-        if (distance == 4) { Console.WriteLine("You lie in the deep abyss, this is no place for you."); }
-        Console.WriteLine("You hear the cavern's emanations. Continue Onward");
+     
+
+        switch (distance)
+        {
+            case 0:
+                Console.WriteLine("You have found the fountain!\n");
+                fountain.isFound = true;
+                EnableFountain();
+                return;
+            case 1:
+                Console.WriteLine("Within the caverns you hear droplets from a near. You must be close.\n");
+                return;
+           case 2:
+                Console.WriteLine("It seems you are in the deeper cavern with no sheds of light. It's a midnight zone here.\n");
+                return;
+          case 3:
+                Console.WriteLine("You lie in the deep abyss, this is no place for you.\n");
+                return;
+            default:
+                Console.WriteLine("You hear the cavern's emanations. Continue Onward.\n");
+                return;
+
+
+        }
     }
     public void Displacement()
     {
@@ -76,19 +111,19 @@ public class Game
         switch (direction)
         {
             case "move east":
-                player.PColumn++;
+                player.Prow+= 1;
                 Displacement();
                 break;
             case "move west":
-                player.PColumn--;
+                player.Prow-= 1;
                 Displacement();
                 break;
             case "move north":
-                player.Prow++;
+                player.PColumn+= 1;
                 Displacement();
                 break;
             case "move south":
-                player.Prow--;
+                player.PColumn+= 1;
                 Displacement();
                 break;
             default:
@@ -104,12 +139,16 @@ public class Game
         string direction;
         do
         {
-            Console.WriteLine("Options are to move in each compass direction i.e. type, move east, to move 1 space to the right");
-            Console.WriteLine($"(Row = {player.Prow}, Column = {player.PColumn})");
-            Console.WriteLine(("What would you like to do: "));
+            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("Options are to move in each compass direction i.e. type, move east, to move 1 space to the right. \n");
+            Console.WriteLine($"(Row = {player.Prow}, Column = {player.PColumn}) \n ");
+            Console.WriteLine("What would you like to do: ");
             direction = Console.ReadLine();
-            Status(direction);
-        } while (fountain.isFound == false && fountain.isEnabled == false);
+            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+            Status(direction);   
+        } while (!(fountain.isFound && fountain.isEnabled == 1)); // isFound = false, enable = false, !(false) = true, loop continues, loop fails when fully true. 
+
+
     }
 }
 
