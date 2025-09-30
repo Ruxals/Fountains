@@ -18,12 +18,22 @@ public class Player
 
     private int _prow;
     private int _pcolumn;
+
+    
     public int Prow
     {
-        get {  return _prow; } 
+        get { return _prow; }
         set
         {
-            if (_prow < 0 || _prow > compareGrid.Row) { Console.WriteLine("Out of bounds."); }
+            if (_prow < 0 || _prow > compareGrid.Row)
+            {
+                Console.WriteLine("Out of bounds.");
+                {
+                    if (_prow < 0) { _prow = 0; }
+                    else { _prow = compareGrid.Row; }
+                }
+            }
+            else
             _prow = value;
         }
     }
@@ -32,8 +42,16 @@ public class Player
         get { return _pcolumn; }
         set
         {
-            if (_pcolumn < 0 || _pcolumn > compareGrid.Column) { Console.WriteLine("Out of bounds."); }
-            _pcolumn = value;
+            if (_pcolumn < 0 || _pcolumn > compareGrid.Column)
+            {
+                Console.WriteLine("Out of bounds.");
+                {
+                    if (_pcolumn < 0) { _pcolumn = 0; }
+                    else { _pcolumn = compareGrid.Column; }
+                }
+            }
+            else
+                _pcolumn = value;
         }
     }
 }
@@ -115,7 +133,7 @@ public class Game
                 Displacement();
                 break;
             case "move west":
-                player.Prow-= 1;
+                player.Prow--;
                 Displacement();
                 break;
             case "move north":
