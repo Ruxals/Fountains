@@ -1,45 +1,50 @@
 ﻿using System;
 
-public class Player
-{
-    Grid<int> compareGrid = new Grid<int>(4, 4);
-
-    private int _prow;
-    private int _pcolumn;
-
-
-    public int Prow
+    public class Player
     {
-        get { return _prow; }
-        set
+        public Grid<int> _compareGrid = new Grid<int>(0,0);
+        
+        public Player(Grid<int> compareGrid)
         {
-            if (_prow < 0 || _prow > compareGrid.Row)
+            _compareGrid = compareGrid;
+        }
+
+    private int _prow = 0;
+    private int _pcolumn = 0;
+
+
+        public int Prow
+        {
+            get { return _prow; }
+            set
             {
-                Console.WriteLine("Out of bounds.");
+                if (_prow < 0 || _prow > _compareGrid.Row)
                 {
-                    if (_prow < 0) { _prow = 0; }
-                    else { _prow = compareGrid.Row; }
+                    Console.WriteLine("Out of bounds.");
+                    {
+                        if (_prow < 0) { _prow = 0; }
+                        else { _prow = _compareGrid.Row; }
+                    }
                 }
+                else
+                    _prow = value;
             }
-            else
-                _prow = value;
+        }
+        public int PColumn
+        {
+            get { return _pcolumn; }
+            set
+            {
+                if (_pcolumn < 0 || _pcolumn > _compareGrid.Column)
+                {
+                    Console.WriteLine("Out of bounds.");
+                    {
+                        if (_pcolumn < 0) { _pcolumn = 0; }
+                        else { _pcolumn = _compareGrid.Column; }
+                    }
+                }
+                else
+                    _pcolumn = value;
+            }
         }
     }
-    public int PColumn
-    {
-        get { return _pcolumn; }
-        set
-        {
-            if (_pcolumn < 0 || _pcolumn > compareGrid.Column)
-            {
-                Console.WriteLine("Out of bounds.");
-                {
-                    if (_pcolumn < 0) { _pcolumn = 0; }
-                    else { _pcolumn = compareGrid.Column; }
-                }
-            }
-            else
-                _pcolumn = value;
-        }
-    }
-}

@@ -1,6 +1,5 @@
 ﻿using System;
-namespace Fountains
-{
+
     public class Program
     {
         public static void Main(string[] args)
@@ -9,4 +8,3 @@ namespace Fountains
             game.Run();
         }
     }
-}
